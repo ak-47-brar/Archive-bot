@@ -12,7 +12,8 @@ time.tzset()
 # Function to synchronize time offset
 def sync_time_offset():
     utc_now = datetime.now(pytz.utc)
-    local_now = datetime.now()
+    local_tz = pytz.timezone('UTC')  # Assuming the server is running in UTC
+    local_now = local_tz.localize(datetime.now())
     offset = (utc_now - local_now).total_seconds()
     return offset
 
@@ -42,4 +43,3 @@ if __name__ == '__main__':
         except Exception as e:
             print(f"Attempt {attempt + 1} failed: {e}")
             time.sleep(5)  # Wait before retrying
-
